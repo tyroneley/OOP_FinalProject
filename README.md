@@ -5,11 +5,13 @@
 
 ## How To Play
 Run the Main.java class and the game will open in a new window.
+- WASD to move
 - Click to melee attack
 - Press F to fire a projectile
+
 ![Gameplay](https://i.imgur.com/geM1wLh.png)
 
 ## Links to Submit
-[Final Report](https://docs.google.com/document/d/1wu55XUYe1HICEH5ulQdDJwbtLn_CZpTS3HNdTmN6V2U/edit?usp=sharing)
-[Video Demo](https://youtu.be/0Y0EHY2W1YM)
+- [Final Report](https://docs.google.com/document/d/1wu55XUYe1HICEH5ulQdDJwbtLn_CZpTS3HNdTmN6V2U/edit?usp=sharing)
+- [Video Demo](https://youtu.be/0Y0EHY2W1YM)
 
