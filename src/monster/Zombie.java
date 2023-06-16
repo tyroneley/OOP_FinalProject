@@ -7,6 +7,8 @@ import main.GamePanel;
 import object.OBJ_Star;
 
 public class Zombie extends Entity {
+
+    // constructor for zombie
     public Zombie(GamePanel gp) {
         super(gp);
 
@@ -21,10 +23,12 @@ public class Zombie extends Entity {
         getImage();
     }
 
+    // sets up the entity image
     public void getImage() {
         spriteSheet1 = setup("/res/monsters/zombie_sheet.png", 32, 32, 4, 2);
     }
 
+    // sets the action to chase player
     public void setAction() {
 
         if (onPath) {

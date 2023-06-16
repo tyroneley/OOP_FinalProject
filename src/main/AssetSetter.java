@@ -24,11 +24,14 @@ public class AssetSetter {
         //gp.monsters[0].y = 1 * gp.maxTileCol;
     }
 
+    // spawns monster
     public void spawnMonster(int index) {
+        // generates random spawn coordinates within the given bounds
         Random random = new Random();
-        int x = random.nextInt(8, 42);
+        int x = random.nextInt(8, 42); 
         int y = random.nextInt(1, 14);
 
+        // instantiates and spawns the monster
         gp.monsters[index] = new Zombie(gp);
         gp.monsters[index].x = x * gp.maxTileRow;
         gp.monsters[index].y = y * gp.maxTileCol;

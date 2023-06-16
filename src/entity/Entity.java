@@ -14,10 +14,10 @@ public class Entity {
     public double x, y;
     public double speed;
     
-    public Spritesheet spritesheet;
+    public Spritesheet spritesheet; // for player/moving entities
     public Spritesheet meleeSpritesheet;
     public BufferedImage image;
-    public Spritesheet spriteSheet1, spritesheet2;
+    public Spritesheet spriteSheet1, spritesheet2; // for objects
     
     public String name;
     public String face = "right";
@@ -43,7 +43,6 @@ public class Entity {
     public int type;
     
     public Rectangle solidArea = new Rectangle(32, 32, 32, 32);
-    
     public Rectangle attackArea = new Rectangle(8, 16, 32, 32);
     
     public double solidAreaDefaultX, solidAreaDefaultY;
@@ -58,10 +57,13 @@ public class Entity {
         this.gp = gp;
     }
     
+    // overridden by monsters/classes that inherit from entity
     public void setAction() {}
 
+    // overridden by monsters/classes that inherit from entity
     public void damageReaction() {}
 
+    // checks collisions of entity
     public void checkCollision() {
         collisionOn = false;
         gp.collision.checkTile(this);
@@ -76,6 +78,7 @@ public class Entity {
         }
     }
 
+    // random movement of entity if not overridden with pathfinding
     public void update() {
         setAction();
         checkCollision();
@@ -118,7 +121,8 @@ public class Entity {
             }
         }
     }
-
+    
+    // sets up the spritesheet for the entity
     public Spritesheet setup(String imagePath, int width, int height, int row, int col) {
         Spritesheet tempSpritesheet = null;
 
@@ -133,6 +137,7 @@ public class Entity {
         return tempSpritesheet;
     }
 
+    // dying animation for entities
     public void dyingAnimation(Graphics2D g2) {
         dyingCounter++;
 
@@ -162,22 +167,33 @@ public class Entity {
         }
     }
 
+    // overridden by monsters that inherit from entity
     public void checkDrop() {}
 
+    // pathfinding
     public void searchPath(int goalCol, int goalRow) {
+        // gets starting column and row of entity
         int startCol = (int)(x + solidArea.x) / gp.tileSize;
         int startRow = (int)(y + solidArea.y) / gp.tileSize;
 
+        // sets the node information for the path to be constructed
         gp.pathfinder.setNodes(startCol, startRow, goalCol, goalRow, this);
+
+        // if a path is found
         if (gp.pathfinder.search()) {
+            // gets coordinates corresponding to the node for the entity to move into
             int nextX = gp.pathfinder.pathList.get(0).col * gp.tileSize;
             int nextY = gp.pathfinder.pathList.get(0).row * gp.tileSize;
 
+            // gets the left, right, up and down coordinates of the entity
             int entityLeftX = (int)x + solidArea.x;
             int entityRightX = (int)x + solidArea.x + solidArea.width;
             int entityTopY = (int)y + solidArea.y;
             int entityBottomY = (int)y + solidArea.y + solidArea.height;
 
+            // handles the direction that the entity should move towards
+            // compares the position of the next node's coordinates with the entity's current left, right, up and odwn
+            // moves the entity accordingly
             if (entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
                 direction = "up";
             } else if (entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gp.tileSize) {
@@ -217,14 +233,18 @@ public class Entity {
                 direction = "down";
             }
 
+            // gets the next node in the path
             int nextCol = gp.pathfinder.pathList.get(0).col;
             int nextRow = gp.pathfinder.pathList.get(0).row;
+
+            // if goal is reached
             if (nextCol == goalCol && nextRow == goalRow) {
                 onPath = false;
             }
         }
     }
 
+    // method to drop the item at the entity's last coordinates
     public void dropItem(Entity droppedItem) {
         for (int i = 0; i < gp.obj.length; i++) {
             if (gp.obj[i] == null) {
@@ -236,10 +256,12 @@ public class Entity {
         }
     }
 
+    // to set transparency
     public void changeAlpha(Graphics2D g2, float alphaValue) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
     }
 
+    // draws the entity
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
@@ -252,6 +274,7 @@ public class Entity {
                 break;
         }
 
+        // draws the enemy health bar
         if (type == 2) {
             double oneScale = (double)gp.tileSize / maxLife;
             double hpBarValue = oneScale * life;
@@ -262,6 +285,7 @@ public class Entity {
             g2.fillRect((int)x, (int)y, (int)hpBarValue, 10);
         }
 
+        // the dying animation
         if (dying && type == 2) {
             dyingAnimation(g2);
         }

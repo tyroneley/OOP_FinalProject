@@ -17,13 +17,14 @@ public class TileManager {
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[25];
+        tile = new Tile[25]; // max number of tile types
         mapTileNum = new int[gp.maxTileCol][gp.maxTileRow];
 
         getTileImage();
         loadMap("/res/maps/map01.txt");
     }
 
+    // loads the tile images and also sets the collision
     public void getTileImage() {
         setup(0, "dungeon_floor1", false);
         setup(1, "dungeon_floor2", false);
@@ -42,9 +43,9 @@ public class TileManager {
     public void setup(int index, String imageName, boolean collision) {
         // UtilityTool utilityTool = new UtilityTool();
         try {
-            tile[index] = new Tile();
-            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + imageName + ".png"));
-            tile[index].collision = collision;
+            tile[index] = new Tile(); // initializes new tile object
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + imageName + ".png")); // gets the image from the source file
+            tile[index].collision = collision; // sets the collision
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,6 +59,9 @@ public class TileManager {
             int col = 0;
             int row = 0;
 
+            // loads the tiles according to the map txt file
+            // gets the tile based on number values corresponding to the indexes given during the tile setup method
+            // 0 0 0 0 0 would be 1 row of floor tiles of 5 columns
             while (col < gp.maxTileCol && row < gp.maxTileRow) {
                 String lineReader = reader.readLine();
                 
@@ -86,6 +90,7 @@ public class TileManager {
         int x = 0;
         int y = 0;
 
+        // draws the tiles after the map is loaded from the text file
         while (col < gp.maxTileCol && row < gp.maxTileRow) {
             int tileNum = mapTileNum[col][row];
 

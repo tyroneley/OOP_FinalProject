@@ -19,12 +19,14 @@ public class Pathfinder {
         instantiateNodes();
     }
     
+    // instantiates new nodes for each column and row
     public void instantiateNodes() {
         node = new Node[gp.maxScreenCol][gp.maxScreenRow];
 
         int col = 0;
         int row = 0;
 
+        // creates node for each column and row, will be used for AI to find paths
         while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
             node[col][row] = new Node(col, row);
             col++;
@@ -36,6 +38,7 @@ public class Pathfinder {
         }
     }
 
+    // resets values of each node for new paths
     public void resetNodes() {
         int col = 0;
         int row = 0;
@@ -58,6 +61,7 @@ public class Pathfinder {
         step = 0;
     }
 
+    // sets the starting node, current node, and finish/goal node before computing a path
     public void setNodes(int startCol, int startRow, int goalCol, int goalRow, Entity entity) {
         resetNodes();
 
@@ -84,7 +88,13 @@ public class Pathfinder {
             }
         }
     }   
-
+    
+    // method to find which node has a higher or lower cost
+    // g cost represents the node distance from the starting node
+    // the h cost represents the node distance from the goal node
+    // the f cost represents the node distance from the start node to the goal node
+    // 1 g cost represents 1 node distance
+    // the lower the cost the faster the path is to reach the end node
     public void getCost(Node node) {
         int xDistance = Math.abs(node.col - startNode.col);
         int yDistance = Math.abs(node.row - startNode.row);
@@ -97,14 +107,17 @@ public class Pathfinder {
         node.fCost = node.gCost + node.hCost;
     }
 
+    // searches for best path nodes
     public boolean search() {
         while (!goalReached && step < 500) {
             int col = currentNode.col;
             int row = currentNode.row;
 
+            // sets node to checked
             currentNode.checked = true;
             openList.remove(currentNode);
 
+            // checks all sides of node/tile
             if (row - 1 >= 0) {
                 openNode(node[col][row-1]);
             }
@@ -124,7 +137,9 @@ public class Pathfinder {
             int bestNodeIndex = 0;
             int bestNodefCost = 999;
 
+            // finding the best node
             for (int i = 0; i < openList.size(); i++) {
+                // smaller f cost/g cost means better node
                 if (openList.get(i).fCost < bestNodefCost) {
                     bestNodeIndex = i;
                     bestNodefCost = openList.get(i).fCost;
@@ -134,12 +149,15 @@ public class Pathfinder {
                     }
                 }
             }
-
+            
+            // no more nodes
             if (openList.size() == 0) {
                 break;
             }
 
             currentNode = openList.get(bestNodeIndex);
+            
+            // goal has been reached
             if (currentNode == goalNode) {
                 goalReached = true;
                 trackThePath();
@@ -149,6 +167,7 @@ public class Pathfinder {
         return goalReached;
     }
 
+    // adds node to list of available nodes
     public void openNode(Node node) {
         if (!node.open && !node.checked && !node.solid) {
             node.open = true;
@@ -157,6 +176,7 @@ public class Pathfinder {
         }
     }
 
+    // tracks the current nodes/path
     public void trackThePath() {
         Node current = goalNode;
 

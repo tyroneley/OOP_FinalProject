@@ -7,11 +7,13 @@ public class Projectile extends Entity {
     double xVelocity;
     double yVelocity;
 
+    // instantiates a new projectile
     public Projectile(GamePanel gp) {
         super(gp);
         type = 3;
     }
 
+    // sets the starting values of the projectile
     public void set(double x, double y, String direction, boolean alive, Entity user) {
         this.alive = true;
         this.x = x;
@@ -28,12 +30,12 @@ public class Projectile extends Entity {
         //this.xVelocity = (float) (mouseX - x) /length * (gp.player.speed);
         //this.yVelocity = (float) (mouseY - y) /length * (gp.player.speed);
     }
-
+    
     public void update() {
         if (this.user == gp.player) {
-            int monsterIndex = gp.collision.checkEntity(this, gp.monsters);
+            int monsterIndex = gp.collision.checkEntity(this, gp.monsters); // if collision with monster
             if (monsterIndex != 999) {
-                gp.player.damageMonster(monsterIndex, attack);
+                gp.player.damageMonster(monsterIndex, attack); // damage monster
                 alive = false;
             }
         }
@@ -44,21 +46,26 @@ public class Projectile extends Entity {
 
         switch(direction) {
             case "up":
+            // shoots up if entity firing projectile is moving upward
                 y -= speed;
                 break;
             case "down":
+            // shoots up if entity firing projectile is moving downward
                 y += speed;
                 break;
             case "left":
+            // shoots up if entity firing projectile is moving left
                 x -= speed;
                 break;
             case "right":
+            // shoots up if entity firing projectile is moving right
                 x += speed;
                 break;
         }
         //x += this.xVelocity * this.speed;
         //y += this.yVelocity * this.speed;
 
+        // subtracts life duration of projectile per tick
         life--;
         if (life <= 0) {
             alive = false;

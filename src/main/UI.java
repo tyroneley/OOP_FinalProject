@@ -14,7 +14,7 @@ public class UI {
     Spritesheet heart_full;
     Spritesheet heart_blank;
     Spritesheet starImage;
-
+    
     public UI(GamePanel gp) {
         this.gp = gp;
 
@@ -58,12 +58,15 @@ public class UI {
         }
     }
 
+    // gets the center X coordinate for the text based on the width of the screen
+    // uses length of string to get the bounds
     public int getXForCenteredText(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x = (gp.screenWidth / 2) - (length / 2);
         return x;
     }
 
+    // draws game over screen
     public void drawGameOverScreen() {
         g2.setColor(new Color(0, 0, 0, 150));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -96,6 +99,7 @@ public class UI {
         }
     }
 
+    // draws pause screen
     public void drawPauseScreen() {
         g2.setColor(new Color(0, 0, 0, 150));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);

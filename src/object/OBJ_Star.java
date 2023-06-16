@@ -4,6 +4,8 @@ import entity.Entity;
 import main.GamePanel;
 
 public class OBJ_Star extends Entity {
+
+    // constructor for star object
     public OBJ_Star(GamePanel gp) { 
         super(gp);
 

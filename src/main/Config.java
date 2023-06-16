@@ -14,13 +14,15 @@ public class Config {
         this.gp = gp;
     }
 
+    // saves high score
     public void saveConfig() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("config.txt"));
-            //System.out.println(gp.player.hasStars + " " + highScore);
+            // compares current score and high score
             if (gp.player.hasStars > highScore) {  
                 writer.write(Integer.toString(gp.player.hasStars));
             } else {
+                // saves high score in case current high score is not 0
                 writer.write(Integer.toString(highScore));
             }
             writer.close();
@@ -29,6 +31,7 @@ public class Config {
         }
     }
 
+    // loads high score data
     public void loadConfig() {
         try {
         BufferedReader reader = new BufferedReader(new FileReader("config.txt"));

@@ -18,6 +18,7 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
 
     }
 
+    // detects key inputs
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -51,6 +52,7 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
         }
     }
 
+    // detects key input release
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
@@ -76,6 +78,7 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
         }
     }
 
+    // was used for first version for mouse aiming, scratched due to scaling issues
     @Override
     public void mouseMoved(MouseEvent e) {
         mouseX = e.getX();
@@ -97,6 +100,7 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
         
     }
 
+    // detect clicks for projectile attacks
     @Override
     public void mouseClicked(MouseEvent e) {
         mouseClicked = true;

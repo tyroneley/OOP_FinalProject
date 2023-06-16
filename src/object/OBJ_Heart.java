@@ -4,6 +4,8 @@ import entity.Entity;
 import main.GamePanel;
 
 public class OBJ_Heart extends Entity {
+
+    // constructor for heart/life
     public OBJ_Heart(GamePanel gp) {
         super(gp);
 

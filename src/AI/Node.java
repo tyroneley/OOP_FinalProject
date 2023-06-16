@@ -11,6 +11,7 @@ public class Node {
     boolean open;
     boolean checked;
 
+    // constructor for a node
     public Node(int col, int row) {
         this.col = col;
         this.row = row;
